@@ -25,22 +25,6 @@ struct coffeeSelect {
     }
 };
 
-// Definition of Buttons for Coffee Dispensing
-template <int COST>
-class Button {
-    private:
-        int itemCost;
-
-    public:
-        Button() {
-            itemCost = COST;
-        }
-
-        int getCost () {
-            return this.itemCost;
-        }
-};
-
 // Defintions of types of Coins available
 namespace Coins {
     const coinDTYPE OneRupee = 1;
@@ -49,13 +33,6 @@ namespace Coins {
     const coinDTYPE TenRupee = 10;
 }
 
-// Types of coffee avilable
-enum CoffeeTypes { 
-    Filter = Coins::TwoRupee, 
-    Black = Coins::OneRupee,
-    Bru = Coins::FiveRupee,
-    Nescafe = Coins::TenRupee
-};  
 
 #endif
 

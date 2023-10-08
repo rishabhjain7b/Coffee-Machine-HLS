@@ -73,7 +73,8 @@ class aoem {
         void CCS_BLOCK(run)(
                 ac_channel<coffeeSelect> &coffeeEntered,
                 ac_channel<coffeeSelect> &coffeeRequest,
-                ac_channel<ledDTYPE> &green_led_ch
+                ac_channel<ledDTYPE> &green_led_ch,
+                ac_channel<ledDTYPE> &yellow_led_ch
                 )
         {
             itemSelected = coffeeEntered.read();
@@ -84,6 +85,7 @@ class aoem {
             if (green_led_val == 1) {
                 coffeeRequest.write(itemSelected);
                 green_led_ch.write(ledDTYPE(0));
+                yellow_led_ch.write(ledDTYPE(1));
             }
 
         }
