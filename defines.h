@@ -1,4 +1,10 @@
 
+/********************************************
+ * Author:  Rishabh Jain
+ * Date:    Oct'23
+ * Desc:    Coffee Vending System Definitions
+********************************************/
+
 #ifndef _DEF_H_
 #define _DEF_H_
 
@@ -8,6 +14,14 @@
 
 typedef ac_int<4, false> coinDTYPE;
 typedef ac_int<1, false> ledDTYPE;
+
+// Defintions of types of Coins available
+namespace Coins {
+    const coinDTYPE OneRupee = 1;
+    const coinDTYPE TwoRupee = 2;
+    const coinDTYPE FiveRupee = 5;
+    const coinDTYPE TenRupee = 10;
+}
 
 struct coffeeSelect {
     ac_int<1, false> is_select_filter_coffee;
@@ -25,14 +39,6 @@ struct coffeeSelect {
     }
 };
 
-// Defintions of types of Coins available
-namespace Coins {
-    const coinDTYPE OneRupee = 1;
-    const coinDTYPE TwoRupee = 2;
-    const coinDTYPE FiveRupee = 5;
-    const coinDTYPE TenRupee = 10;
-}
 
-
-#endif
+#endif //_DEF_H_
 
