@@ -9,8 +9,8 @@
 #define _CVS_H_
 
 #include "defines.h"
-#include "aoem_def.h"
-#include "ccdm_def.h"
+#include "aoem.h"
+#include "ccdm.h"
 #include <mc_scverify.h>
 
 class vendingSys {
@@ -28,6 +28,9 @@ class vendingSys {
     public:
         vendingSys() {}
 
+#ifdef _CATAPULT_
+#pragma hls_design interface top
+#endif
         void CCS_BLOCK(run)(
                 ac_channel<coffeeSelect> &inputBeverage,
                 ac_channel<ledDTYPE> &green_led_ch,

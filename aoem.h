@@ -17,6 +17,10 @@ class aoem {
         coffeeSelect itemSelected;
         ledDTYPE green_led_val;
 
+#ifdef _CATAPULT_
+#pragma hls_design ccore
+#pragma hls_ccore_type combinational
+#endif
         ledDTYPE costCheck (const coffeeSelect itemSelected) {
             ledDTYPE green_led_out = 0;
 
@@ -53,11 +57,6 @@ class aoem {
                 }
             }
             else {
-                is_select_filter_coffee = 0;
-                is_select_black_coffee = 0;
-                is_select_bru_coffee = 0;
-                is_select_nescafe_coffee = 0;
-                entered_coin = 0;
                 green_led_out = 0;
             }
 
@@ -70,6 +69,9 @@ class aoem {
             green_led_val = 0;
         }
 
+#ifdef _CATAPULT_
+#pragma hls_design interface
+#endif
         void CCS_BLOCK(run)(
                 ac_channel<coffeeSelect> &coffeeEntered,
                 ac_channel<coffeeSelect> &coffeeRequest,
