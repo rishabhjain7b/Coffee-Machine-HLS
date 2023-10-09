@@ -23,7 +23,7 @@ class vendingSys {
         ccdm ccdm_inst;
 
         ac_channel<coffeeSelect> requestedBeverage;
-        ac_channel<ledDTYPE> yellow_led_sh_ch;
+        ac_channel<flagDTYPE> coffee_served;
 
     public:
         vendingSys() {}
@@ -32,13 +32,35 @@ class vendingSys {
 #pragma hls_design interface top
 #endif
         void CCS_BLOCK(run)(
+                // Inputs
                 ac_channel<coffeeSelect> &inputBeverage,
+                ac_channel<coinSelect> &inputCoins,
+                flagDTYPE& amountEntered,
+
+                //Outputs
                 ac_channel<ledDTYPE> &green_led_ch,
                 ac_channel<ledDTYPE> &yellow_led_ch,
-                ac_int<1, false> &coffee_served)
+                ac_channel<flagDTYPE>& filter_coffee,
+                ac_channel<flagDTYPE>& black_coffee,
+                ac_channel<flagDTYPE>& bru_coffee,
+                ac_channel<flagDTYPE>& nescafe_coffee
+                )
         {
-            aoem_inst.run(inputBeverage, requestedBeverage, green_led_ch, yellow_led_sh_ch);
-            ccdm_inst.run(requestedBeverage, yellow_led_sh_ch, yellow_led_ch, coffee_served);
+#ifndef __SYNTHESIS__
+            cout << "LOG: " << "Machine Starts" << endl;
+#endif
+
+            // Call to automated order entry machine
+            aoem_inst.run(inputBeverage, inputCoins, amountEntered, coffee_served, 
+                            requestedBeverage, green_led_ch, yellow_led_ch);
+            
+            // Call to common coffee dispenser machine
+            ccdm_inst.run(requestedBeverage, filter_coffee, black_coffee, 
+                            bru_coffee, nescafe_coffee, coffee_served);
+
+#ifndef __SYNTHESIS__
+            cout << "LOG: " << "Machine Ends" << endl;
+#endif
         }
 };
 #endif // _CVS_H_
