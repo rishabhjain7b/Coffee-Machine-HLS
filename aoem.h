@@ -147,7 +147,7 @@ class aoem {
 #endif
 
                 green_led_ch.write(green_led_val);
-                yellow_led_ch.write(yellow_led_val);
+                //yellow_led_ch.write(yellow_led_val);
             }
 
             if (green_led_val == flagDTYPE(1) && yellow_led_val == flagDTYPE(0)) {

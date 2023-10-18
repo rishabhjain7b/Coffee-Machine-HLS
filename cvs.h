@@ -14,7 +14,7 @@
 #include <mc_scverify.h>
 
 class vendingSys {
-    
+
     private:
         // instance for automated order entry machine
         aoem aoem_inst;
@@ -46,19 +46,19 @@ class vendingSys {
                 ac_channel<flagDTYPE>& nescafe_coffee
                 )
         {
-#ifndef __SYNTHESIS__
+#ifdef _DEBUG_
             cout << "LOG: " << "Machine Starts" << endl;
 #endif
 
             // Call to automated order entry machine
-            aoem_inst.run(inputBeverage, inputCoins, /*amountEntered,*/ coffee_served, 
-                            requestedBeverage, green_led_ch, yellow_led_ch);
-            
+            aoem_inst.run(inputBeverage, inputCoins, coffee_served, 
+                    requestedBeverage, green_led_ch, yellow_led_ch);
+
             // Call to common coffee dispenser machine
             ccdm_inst.run(requestedBeverage, filter_coffee, black_coffee, 
-                            bru_coffee, nescafe_coffee, coffee_served);
+                    bru_coffee, nescafe_coffee, coffee_served);
 
-#ifndef __SYNTHESIS__
+#ifdef _DEBUG_
             cout << "LOG: " << "Machine Ends" << endl;
 #endif
         }

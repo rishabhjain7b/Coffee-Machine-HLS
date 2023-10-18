@@ -29,6 +29,12 @@ go libraries
 directive set -CLOCKS {clk {-CLOCK_PERIOD 100.0 -CLOCK_EDGE rising -CLOCK_UNCERTAINTY 0.0 -CLOCK_HIGH_TIME 50.0 -RESET_SYNC_NAME rst -RESET_ASYNC_NAME arst_n -RESET_KIND sync -RESET_SYNC_ACTIVE high -RESET_ASYNC_ACTIVE low -ENABLE_ACTIVE high}}
 go assembly
 
+directive set /vendingSys/aoem/run/main -PIPELINE_INIT_INTERVAL 2
+directive set /vendingSys/aoem/run/main -PIPELINE_STALL_MODE flush
+
+directive set /vendingSys/ccdm/run/main -PIPELINE_INIT_INTERVAL 2
+directive set /vendingSys/ccdm/run/main -PIPELINE_STALL_MODE flush
+
 go extract
 
 
