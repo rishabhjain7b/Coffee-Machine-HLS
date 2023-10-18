@@ -31,45 +31,55 @@ class ccdm {
                 black_coffee_status = 0;
                 bru_coffee_status = 0;
                 nescafe_coffee_status = 0;
-#ifndef __SYNTHESIS__
+
+#ifdef _DEBUG_
             cout << "LOG: " << "Coffee Dispensed is Filter Coffee" << endl;
 #endif
+
             }
             else if (itemSelected.is_select_black_coffee == 1) {
                 filter_coffee_status = 0;
                 black_coffee_status = 1;
                 bru_coffee_status = 0;
                 nescafe_coffee_status = 0;
-#ifndef __SYNTHESIS__
+
+#ifdef _DEBUG_
             cout << "LOG: " << "Coffee Dispensed is Black Coffee" << endl;
 #endif
+
             }
             else if (itemSelected.is_select_bru_coffee == 1) {
                 filter_coffee_status = 0;
                 black_coffee_status = 0;
                 bru_coffee_status = 1;
                 nescafe_coffee_status = 0;
-#ifndef __SYNTHESIS__
+
+#ifdef _DEBUG_
             cout << "LOG: " << "Coffee Dispensed is Bru Coffee" << endl;
 #endif
+
             }
             else if (itemSelected.is_select_nescafe_coffee == 1) {
                 filter_coffee_status = 0;
                 black_coffee_status = 0;
                 bru_coffee_status = 0;
                 nescafe_coffee_status = 1;
-#ifndef __SYNTHESIS__
+
+#ifdef _DEBUG_
             cout << "LOG: " << "Coffee Dispensed is Nescafe Coffee" << endl;
 #endif
+
             }
             else {
                 filter_coffee_status = 0;
                 black_coffee_status = 0;
                 bru_coffee_status = 0;
                 nescafe_coffee_status = 0;
-#ifndef __SYNTHESIS__
+
+#ifdef _DEBUG_
             cout << "LOG: " << "No Coffee Dispensed" << endl;
 #endif
+
                 returnFlag = flagDTYPE(0);
             }
 
@@ -93,7 +103,10 @@ class ccdm {
 #pragma hls_design interface
 #endif
         void CCS_BLOCK(run) (
+                // Input
                 ac_channel<coffeeSelect> &coffeeRequest,
+
+                // Output
                 ac_channel<flagDTYPE>& filter_coffee,
                 ac_channel<flagDTYPE>& black_coffee,
                 ac_channel<flagDTYPE>& bru_coffee,
@@ -101,44 +114,67 @@ class ccdm {
                 ac_channel<flagDTYPE>& coffee_dispensed
                 )
         {
-#ifndef __SYNTHESIS__
+
+#ifdef _DEBUG_
             cout << "LOG: " << "Entering CCDM" << endl;
 #endif
+
+            flagDTYPE coffeeReceived = flagDTYPE(0);
+
 #ifndef __SYNTHESIS__
             if (coffeeRequest.available(1))
 #endif
             {
                 coffee_served = coffeeRequest.read();
-#ifndef __SYNTHESIS__
+                coffeeReceived = flagDTYPE(1);
+
+#ifdef _DEBUG_
             cout << "LOG: " << "Received Coffee Request in CCDM" << endl;
 #endif
+
             }
 
-            coffee_dispensed.write(flagDTYPE(0));
-#ifndef __SYNTHESIS__
+#ifdef _DEBUG_
             cout << "LOG: " << "Waiting to Dispense" << endl;
 #endif
 
             flagDTYPE status = 0;
-            status = dispenser(coffee_served);
+            if (coffeeReceived == flagDTYPE(1)) {
+                status = dispenser(coffee_served);
+            }
 
-#ifndef __SYNTHESIS__
-            cout << "LOG: " << "Dispensing Requested Coffee" << endl;
+            if (status == flagDTYPE(1)) {
+
+#ifdef _DEBUG_
+                cout << "LOG: " << "Dispensing Requested Coffee" << endl;
 #endif
+
+                filter_coffee.write(filter_coffee_status);
+                black_coffee.write(black_coffee_status);
+                bru_coffee.write(bru_coffee_status);
+                nescafe_coffee.write(nescafe_coffee_status);
+
+#ifdef _DEBUG_
+                cout << "LOG: " << "Dispensing Coffee Status for AOEM" << endl;
+#endif
+
+                coffee_dispensed.write(status);
+            }
+
+            filter_coffee_status = flagDTYPE(0);
+            black_coffee_status = flagDTYPE(0);
+            bru_coffee_status = flagDTYPE(0);
+            nescafe_coffee_status = flagDTYPE(0);
+
             filter_coffee.write(filter_coffee_status);
             black_coffee.write(black_coffee_status);
             bru_coffee.write(bru_coffee_status);
             nescafe_coffee.write(nescafe_coffee_status);
 
-            if (status == flagDTYPE(1)) {
-#ifndef __SYNTHESIS__
-            cout << "LOG: " << "Dispensing Coffee Status for AOEM" << endl;
-#endif
-                coffee_dispensed.write(flagDTYPE(1));
-            }
-#ifndef __SYNTHESIS__
+#ifdef _DEBUG_
             cout << "LOG: " << "Leaving CCDM" << endl;
 #endif
+
         }
 
 };

@@ -10,6 +10,7 @@
 
 #include <ac_int.h>
 #include <ac_channel.h>
+#include <ac_wait.h>
 
 #ifndef __SYNTHESIS__
 #include <iostream>
@@ -22,13 +23,16 @@ typedef ac_int<4, false> coinDTYPE;
 typedef ac_int<1, false> ledDTYPE;
 typedef ac_int<1, false> flagDTYPE;
 
+// Types of coins available
+namespace Coins {
+    const coinDTYPE OneRp = 1;
+    const coinDTYPE TwoRp = 2;
+    const coinDTYPE FiveRp = 5;
+    const coinDTYPE TenRp = 10;
+}
+
 // Defintions of types of Coins available
 struct coinSelect {
-    coinDTYPE OneRp = 1;
-    coinDTYPE TwoRp = 2;
-    coinDTYPE FiveRp = 5;
-    coinDTYPE TenRp = 10;
-    
     flagDTYPE entered_one_rp;
     flagDTYPE entered_two_rp;
     flagDTYPE entered_five_rp;
@@ -43,16 +47,16 @@ struct coinSelect {
 
     coinDTYPE get_value ( const coinSelect& input ) {
         if (input.entered_one_rp == flagDTYPE(1)) {
-            return input.OneRp;
+            return Coins::OneRp;
         }
         else if (input.entered_two_rp == flagDTYPE(1)) {
-            return input.TwoRp;
+            return Coins::TwoRp;
         }
         else if (input.entered_five_rp == flagDTYPE(1)) {
-            return input.FiveRp;
+            return Coins::FiveRp;
         }
         else if (input.entered_ten_rp == flagDTYPE(1)) {
-            return input.TenRp;
+            return Coins::TenRp;
         }
         else {
             return coinDTYPE(0);

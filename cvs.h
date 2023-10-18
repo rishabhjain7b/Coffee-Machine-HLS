@@ -35,7 +35,7 @@ class vendingSys {
                 // Inputs
                 ac_channel<coffeeSelect> &inputBeverage,
                 ac_channel<coinSelect> &inputCoins,
-                flagDTYPE& amountEntered,
+                //ac_channel<flagDTYPE>& amountEntered,
 
                 //Outputs
                 ac_channel<ledDTYPE> &green_led_ch,
@@ -51,7 +51,7 @@ class vendingSys {
 #endif
 
             // Call to automated order entry machine
-            aoem_inst.run(inputBeverage, inputCoins, amountEntered, coffee_served, 
+            aoem_inst.run(inputBeverage, inputCoins, /*amountEntered,*/ coffee_served, 
                             requestedBeverage, green_led_ch, yellow_led_ch);
             
             // Call to common coffee dispenser machine
